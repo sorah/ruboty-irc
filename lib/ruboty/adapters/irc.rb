@@ -9,6 +9,9 @@ module Ruboty
       env :IRC_PASSWORD, "irc password", optional: true
       env :IRC_CHANNEL, "irc channel to join", optional: true
 
+      env :IRC_ENCODING, "irc encoding", optional: true
+      env :IRC_DISABLE_ENCODE_BODY, "disable encoding text to UTF-8", optional: true
+
       def run
         irc.on_privmsg(&method(:on_message))
         irc.run!
@@ -21,9 +24,15 @@ module Ruboty
       end
 
       def on_message(message)
+        if do_auto_encode?
+          body = message.body.dup.force_encoding(encoding)
+        else
+          body = message.body.encode('utf-8', encoding)
+        end
+
         robot.receive(
           type: message.type,
-          body: message.body,
+          body: body,
           from: message.from,
           to:   message.to,
         )
@@ -59,6 +68,14 @@ module Ruboty
 
       def channel
         ENV['IRC_CHANNEL']
+      end
+
+      def encoding
+        ENV['IRC_ENCODING'] || 'utf-8'
+      end
+
+      def do_auto_encode?
+        ENV['IRC_DISABLE_ENCODE_BODY'] != '1'
       end
     end
   end
