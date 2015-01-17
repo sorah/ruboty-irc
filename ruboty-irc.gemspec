@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Ruboty::Irc::VERSION
   spec.authors       = ["Shota Fukumori (sora_h)"]
   spec.email         = ["her@sorah.jp"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Ruboty IRC adapter}
+  spec.description   = nil
+  spec.homepage      = "https://github.com/sorah/ruboty-irc"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
